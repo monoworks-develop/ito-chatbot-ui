@@ -1,0 +1,15 @@
+{
+  "name": "Next Monorepo",
+  "dockerComposeFile": "./compose.yml",
+  "service": "app",
+  "workspaceFolder": "/home/user/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "GitHub.copilot",
+        "biomejs.biome"
+      ]
+    }
+  }
+}
