@@ -1,5 +1,5 @@
 {
-  "name": "Next Monorepo",
+  "name": "Ito Chatbot UI",
   "dockerComposeFile": "./compose.yml",
   "service": "app",
   "workspaceFolder": "/home/user/app",
@@ -8,7 +8,9 @@
       "extensions": [
         "ms-azuretools.vscode-docker",
         "GitHub.copilot",
-        "biomejs.biome"
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "formulahendry.auto-rename-tag"
       ]
     }
   }
