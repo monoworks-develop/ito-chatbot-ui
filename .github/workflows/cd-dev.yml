@@ -22,7 +22,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Test access to Azure
         run: |
-          az acr list -o table
+          az account show --query name
 
       # - name: Login to container registry
       #   run: az acr login -n xxxx
