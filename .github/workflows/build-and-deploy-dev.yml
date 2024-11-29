@@ -12,7 +12,7 @@ jobs:
     env:
       DOCKER_IMAGE_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ vars.AZURE_WEBAPP_NAME }}:latest # ACRの容量を節約するため常にlatestを更新
     permissions:
-      id-token: write # OIDC接続を実行するために必要
+      id-token: write # OIDC接続を行うために必要
     steps:
       - name: ソースのチェックアウト
         uses: actions/checkout@v3
