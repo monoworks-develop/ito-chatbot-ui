@@ -10,11 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev # Azure上で作成したフェデレーション資格情報の環境と一致させる
     env:
-      TEMP_VAR: 'Temporary value'
+      TEMP_VAR: 'Hello, World!'
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      # AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      # AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # AZURE_CONTAINER_REGISTRY_NAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_NAME }}
+      # AZURE_WEBAPP_NAMEa: ${{ env.AZURE_WEBAPP_NAME }}
     permissions:
       id-token: write # OIDC 接続を実行するために必要
     steps:
-      - run: echo $TEMP_VAR
+      - run: echo ${{env.AZURE_CLIENT_ID}}
       # - name: Checkout repository
       #   uses: actions/checkout@v3
       # - name: Azure Login
