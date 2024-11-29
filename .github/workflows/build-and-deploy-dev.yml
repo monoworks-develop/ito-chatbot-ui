@@ -5,13 +5,13 @@ on:
     branches:
       - main
 
-env:
-  TARGET_ENVIRONMENT: dev # Azure上で作成したフェデレーション資格情報の環境と一致させる
+# env:
+#   TARGET_ENVIRONMENT: dev # Azure上で作成したフェデレーション資格情報の環境と一致させる
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ vars.TARGET_ENVIRONMENT }}
+    environment: dev
     env:
       DOCKER_IMAGE_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ vars.AZURE_WEBAPP_NAME }}:latest # ACRの容量を節約するため常にlatestを更新
     permissions:
@@ -29,7 +29,7 @@ jobs:
         run: az acr login -n ${{ env.AZURE_CONTAINER_REGISTRY_NAME }}
       - name: Build and push container image to registry
         run: |
-          docker build -t ${{ env.DOCKER_IMAGE_NAME }} -f Dockerfile.${{ env.TARGET_ENVIRONMENT }} .
+          docker build -t ${{ env.DOCKER_IMAGE_NAME }} -f Dockerfile.dev .
           docker push ${{ env.DOCKER_IMAGE_NAME }}
       - name: 'Azure Web App for Containerへのデプロイ'
         uses: azure/webapps-deploy@v2
