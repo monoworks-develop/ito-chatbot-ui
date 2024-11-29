@@ -1,41 +1,35 @@
-name: Build and deploy Docker app to Azure
+name: Azure App Serviceにコンテナアプリケーションをビルド&デプロイ
 
 on:
   push:
     branches:
       - main
 
-# env:
-#   TARGET_ENVIRONMENT: dev # Azure上で作成したフェデレーション資格情報の環境と一致させる
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: dev # Azure上で作成したフェデレーション資格情報の環境と一致させる
     env:
       DOCKER_IMAGE_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}.azurecr.io/${{ vars.AZURE_WEBAPP_NAME }}:latest # ACRの容量を節約するため常にlatestを更新
     permissions:
-      id-token: write # OIDC 接続を実行するために必要
+      id-token: write # OIDC接続を実行するために必要
     steps:
-      - name: Checkout repository
+      - name: ソースのチェックアウト
         uses: actions/checkout@v3
-      - name: Azure Login
+      - name: Azureにログイン
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      - name: Login to container registry
+      - name: ACRにログイン
         run: az acr login -n ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
-      - name: Build and push container image to registry
+      - name: Dockerイメージのビルドとプッシュ
         run: |
           docker build -t ${{ env.DOCKER_IMAGE_NAME }} -f Dockerfile.dev .
           docker push ${{ env.DOCKER_IMAGE_NAME }}
-      - run: echo "${{ vars.AZURE_WEBAPP_NAME }}"
-      - name: 'Deploy to Azure Web App'
+      - name: Azure App Serviceにデプロイ
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           images: ${{ env.DOCKER_IMAGE_NAME }}
-      # - name: Restart Azure Web App
-      #   run: echo "Deploy to Azure Web App"
