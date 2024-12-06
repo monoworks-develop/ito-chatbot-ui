@@ -1,11 +1,10 @@
 'use client';
 
 import { LightMode } from '@mui/icons-material';
-import { Box, Button, Input, Typography } from '@mui/joy';
+import { Box, Input, Typography } from '@mui/joy';
 import { ChangeEvent, useState } from 'react';
 
 import { ask } from '@/util/apiService';
-import { getToken } from '@/util/auth';
 
 export default function Home() {
   const [value, setValue] = useState('');
@@ -33,15 +32,9 @@ export default function Home() {
           disabled={isAsking}
         />
         <Typography>{aiResponse}</Typography>
-        <Button onClick={test}>テスト用</Button>
       </Box>
     </Box>
   );
-
-  async function test() {
-    console.log(await getToken());
-    // console.log(window.location);
-  }
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
